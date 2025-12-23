@@ -1,4 +1,5 @@
 import { fail, notStrictEqual, ok, strictEqual } from 'assert';
+import { writeFileSync } from 'fs';
 import { join } from 'path';
 import { load } from '../config';
 import {
@@ -10,6 +11,7 @@ import {
 	keys,
 	runCLI
 } from './cli';
+import { TemporaryDirectory } from './utils';
 
 describe('Integration CLI (Deploy)', function () {
 	this.timeout(2000000);
@@ -74,6 +76,38 @@ describe('Integration CLI (Deploy)', function () {
 		}
 	});
 
+	// --confDir
+	it('Should be able to login using --confDir flag', async function () {
+		const file = await load();
+		const token = file.token || '';
+
+		notStrictEqual(token, '');
+
+		await clearCache();
+
+		using confDirResource = new TemporaryDirectory();
+		const confDir = confDirResource.path;
+
+		using workdirResource = new TemporaryDirectory();
+		const workdir = workdirResource.path;
+
+		// Write the config file
+		const configPath = join(confDir, 'config.ini');
+		writeFileSync(configPath, `token=${token}`, 'utf8');
+
+		try {
+			await runCLI(
+				[`--confDir=${confDir}`, `--workdir=${workdir}`],
+				[keys.enter, keys.enter]
+			).promise;
+		} catch (err) {
+			strictEqual(
+				err,
+				`X The directory you specified (${workdir}) is empty.\n`
+			);
+		}
+	});
+
 	// --help
 	it('Should be able to print help guide using --help flag', async () => {
 		const result = await runCLI(['--help'], [keys.enter]).promise;
@@ -92,9 +126,7 @@ describe('Integration CLI (Deploy)', function () {
 				)}`
 			);
 		} catch (err) {
-			ok(
-				String(err) === '! --yeet does not exist as a valid command.\n'
-			);
+			ok(String(err) === '! --yeet does not exist as a valid command.\n');
 		}
 	});
 

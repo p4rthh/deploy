@@ -72,12 +72,11 @@
 		],
 		"extends": [
 			"eslint:recommended",
-			"prettier",
 			"plugin:@typescript-eslint/eslint-recommended",
 			"plugin:@typescript-eslint/recommended",
 			"plugin:@typescript-eslint/recommended-requiring-type-checking",
-			"prettier/@typescript-eslint",
-			"plugin:prettier/recommended"
+			"plugin:prettier/recommended",
+			"prettier"
 		],
 		"globals": {
 			"Atomics": "readonly",
@@ -115,17 +114,17 @@
 		"@types/inquirer": "^7.3.1",
 		"@types/mocha": "^8.2.2",
 		"@types/node": "^14.14.7",
-		"@typescript-eslint/eslint-plugin": "^5.11.0",
-		"@typescript-eslint/parser": "^5.11.0",
+		"@typescript-eslint/eslint-plugin": "^6.21.0",
+		"@typescript-eslint/parser": "^6.21.0",
 		"concat-stream": "^2.0.0",
 		"cross-spawn": "^7.0.3",
 		"eslint": "^7.13.0",
-		"eslint-config-prettier": "^6.15.0",
-		"eslint-plugin-prettier": "^3.1.4",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^4.2.5",
 		"eslint-plugin-tsdoc": "^0.2.7",
 		"mocha": "^9.2.0",
 		"nyc": "^15.1.0",
-		"prettier": "^2.1.2",
-		"typescript": "^4.3.2"
+		"prettier": "^3.7.4",
+		"typescript": "^5.9.3"
 	}
 }
